@@ -43,3 +43,15 @@ py optimize_images.py
 The script first resizes originals in `public/images` that exceed 2560 pixels on either side, replacing those files in place. It then creates gallery copies in the matching `public/images-small` subfolders, resized to fit within 800 × 800 pixels. It uses JPEG quality 88 for resized originals and 76 for gallery copies; PNG files retain their format. Up-to-date gallery copies are reused.
 
 Use `py optimize_images.py --help` to see options for custom source/output folders, maximum dimensions, and JPEG quality settings.
+
+## Deploy to GitHub Pages
+
+Build and publish the site with:
+
+```powershell
+npm run deploy
+```
+
+The production build targets the `/artasfun/` repository path and includes a
+404 fallback for client-side routes. Configure the repository's Pages source
+to the `gh-pages` branch at the root.

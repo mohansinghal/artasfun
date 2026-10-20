@@ -28,8 +28,12 @@ type NavigationItem = {
   children?: NavigationItem[]
 }
 
+function publicAssetSource(source: string) {
+  return `${import.meta.env.BASE_URL}${source.replace(/^\/+/, '')}`
+}
+
 function smallImageSource(source: string) {
-  return source.replace(/^\/images\//, '/images-small/')
+  return publicAssetSource(source.replace(/^\/images\//, '/images-small/'))
 }
 
 function NavigationTree({ items, variant }: {
@@ -265,7 +269,7 @@ function ConfiguredPage({ page }: { page: typeof siteConfig.pages[number] }) {
             >
               <CloseIcon />
             </IconButton>
-            {displayedImage && <img src={displayedImage.source} alt={displayedImage.alt} />}
+            {displayedImage && <img src={publicAssetSource(displayedImage.source)} alt={displayedImage.alt} />}
           </DialogContent>
         </Dialog>
       )}
@@ -332,12 +336,12 @@ export default function App() {
   useEffect(() => {
     const favicon = document.querySelector<HTMLLinkElement>('link[rel="icon"]')
     if (favicon && siteConfig.logoImageSource) {
-      favicon.href = siteConfig.logoImageSource
+      favicon.href = publicAssetSource(siteConfig.logoImageSource)
     }
   }, [])
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <div className="app-container">
         <title>{siteConfig.siteName}</title>
         <meta name="description" content={siteConfig.siteDescription} />
@@ -346,12 +350,12 @@ export default function App() {
             <span className="brand-mark">
               {siteConfig.logoImageSource && !logoLoadFailed ? (
                 <img
-                  src={siteConfig.logoImageSource}
+                  src={publicAssetSource(siteConfig.logoImageSource)}
                   alt=""
                   onError={() => {
                     setLogoLoadFailed(true)
                     const favicon = document.querySelector<HTMLLinkElement>('link[rel="icon"]')
-                    if (favicon) favicon.href = '/favicon.svg'
+                    if (favicon) favicon.href = publicAssetSource('/favicon.svg')
                   }}
                 />
               ) : (

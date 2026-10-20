@@ -1,4 +1,4 @@
-﻿import React, {createContext, useContext, useState, useEffect, ReactNode} from 'react'
+import { createContext, useContext, useState, useEffect, type ReactNode } from 'react'
 
 type User = { name: string; token: string } | null
 
@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (raw) setUser(JSON.parse(raw))
   }, [])
 
-  const login = async (name: string, password: string) => {
+  const login = async (name: string, _password: string) => {
     // Mock auth: accept any credentials after a short delay
     await new Promise((res) => setTimeout(res, 500))
     const token = btoa(`${name}:${Date.now()}`)
